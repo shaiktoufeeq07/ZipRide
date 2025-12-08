@@ -10,38 +10,20 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Driver {
 @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+@GeneratedValue(strategy = GenerationType.AUTO)
 private int did;
 private int licenseno;
 private String upiid;
-private String dname;
-private String status;
+private String drivername;
+private String driverstatus;
 private int age;
-private long mobno;
-private String gender;
-private String mail;
+private long drivermobileno;
+private String drivergender;
+private String drivermail;
 
 @OneToOne(mappedBy = "driver", cascade =  CascadeType.ALL,orphanRemoval = true)
 
 private Vehicle vehicle;
-
-public Driver(int licenseno, String upiid, String dname, String status, int age, long mobno, String gender, String mail,
-		Vehicle vehicle) {
-	super();
-	this.licenseno = licenseno;
-	this.upiid = upiid;
-	this.dname = dname;
-	this.status = status;
-	this.age = age;
-	this.mobno = mobno;
-	this.gender = gender;
-	this.mail = mail;
-	this.vehicle = vehicle;
-}
-
-public Driver() {
-	super();
-}
 
 public int getDid() {
 	return did;
@@ -67,20 +49,20 @@ public void setUpiid(String upiid) {
 	this.upiid = upiid;
 }
 
-public String getDname() {
-	return dname;
+public String getDrivername() {
+	return drivername;
 }
 
-public void setDname(String dname) {
-	this.dname = dname;
+public void setDrivername(String drivername) {
+	this.drivername = drivername;
 }
 
-public String getStatus() {
-	return status;
+public String getDriverstatus() {
+	return driverstatus;
 }
 
-public void setStatus(String status) {
-	this.status = status;
+public void setDriverstatus(String driverstatus) {
+	this.driverstatus = driverstatus;
 }
 
 public int getAge() {
@@ -91,28 +73,28 @@ public void setAge(int age) {
 	this.age = age;
 }
 
-public long getMobno() {
-	return mobno;
+public long getDrivermobileno() {
+	return drivermobileno;
 }
 
-public void setMobno(long mobno) {
-	this.mobno = mobno;
+public void setDrivermobileno(long drivermobileno) {
+	this.drivermobileno = drivermobileno;
 }
 
-public String getGender() {
-	return gender;
+public String getDrivergender() {
+	return drivergender;
 }
 
-public void setGender(String gender) {
-	this.gender = gender;
+public void setDrivergender(String drivergender) {
+	this.drivergender = drivergender;
 }
 
-public String getMail() {
-	return mail;
+public String getDrivermail() {
+	return drivermail;
 }
 
-public void setMail(String mail) {
-	this.mail = mail;
+public void setDrivermail(String drivermail) {
+	this.drivermail = drivermail;
 }
 
 public Vehicle getVehicle() {
@@ -122,6 +104,34 @@ public Vehicle getVehicle() {
 public void setVehicle(Vehicle vehicle) {
 	this.vehicle = vehicle;
 }
+
+public Driver(int licenseno, String upiid, String drivername, String driverstatus, int age, long drivermobileno,
+		String drivergender, String drivermail, Vehicle vehicle) {
+	super();
+	this.licenseno = licenseno;
+	this.upiid = upiid;
+	this.drivername = drivername;
+	this.driverstatus = driverstatus;
+	this.age = age;
+	this.drivermobileno = drivermobileno;
+	this.drivergender = drivergender;
+	this.drivermail = drivermail;
+	this.vehicle = vehicle;
+}
+
+public Driver() {
+	super();
+}
+
+@Override
+public String toString() {
+	return "Driver [did=" + did + ", licenseno=" + licenseno + ", upiid=" + upiid + ", drivername=" + drivername
+			+ ", driverstatus=" + driverstatus + ", age=" + age + ", drivermobileno=" + drivermobileno
+			+ ", drivergender=" + drivergender + ", drivermail=" + drivermail + ", vehicle=" + vehicle + "]";
+}
+
+
+
 
 
 }

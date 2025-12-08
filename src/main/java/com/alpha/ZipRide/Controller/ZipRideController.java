@@ -25,19 +25,19 @@ public class ZipRideController {
 	}
 	
 	@GetMapping("/finddriver")
-	public Driver finding(@RequestParam long mobno) {
-		return ds.findDriverByMobile(mobno);
+	public Driver finding(@RequestParam long drivermobileno) {
+		return ds.findDriverByMobile(drivermobileno);
 	}
 	
 	@DeleteMapping("/deletedriver")
-	public String deleting(@RequestParam long mobno) {
-		return ds.deleteDriver(mobno);
+	public String deleting(@RequestParam long drivermobileno) {
+		return ds.deleteDriver(drivermobileno);
 	}
 	
 	
 	@PatchMapping("/updatedriver")
-	public String deleting(@RequestParam long mobno, @RequestParam double latitude, @RequestParam double  longitude) {
-		 return ds.updateDriverLocation(mobno, latitude, longitude);
+	public String deleting(@RequestParam long drivermobileno, @RequestParam double latitude, @RequestParam double  longitude) {
+		 return ds.updateDriverLocation(drivermobileno, latitude, longitude);
 	}
 
 }

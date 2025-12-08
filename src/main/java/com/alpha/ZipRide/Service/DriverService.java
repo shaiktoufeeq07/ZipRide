@@ -53,22 +53,22 @@ public class DriverService {
         Driver d = new Driver();
         d.setLicenseno(dto.getLicenseno());
         d.setUpiid(dto.getUpiid());
-        d.setDname(dto.getDname());
+        d.setDrivername(dto.getDrivername());
         d.setAge(dto.getAge());
-        d.setMobno(dto.getMobno());
-        d.setGender(dto.getGender());
-        d.setMail(dto.getMail());
-        d.setStatus("Available");
+        d.setDrivermobileno(dto.getDrivermobileno());
+        d.setDrivergender(dto.getDrivergender());
+        d.setDrivermail(dto.getDrivermail());
+        d.setDriverstatus("Available");
 
         String city = getCityName(dto.getLatitude(), dto.getLongitude());
 
         Vehicle v = new Vehicle();
-        v.setVname(dto.getVname());
-        v.setVno(dto.getVno());
-        v.setVtype(dto.getVtype());
-        v.setVmodel(dto.getVmodel());
-        v.setCapacity(dto.getCapacity());
-        v.setCurrencity(city); 
+        v.setVehiclename(dto.getVehiclename());
+        v.setVehicleno(dto.getVehicleno());
+        v.setVehicletype(dto.getVehicletype());
+        v.setVehiclemodel(dto.getVehiclemodel());
+        v.setVehiclecapacity(dto.getVehiclecapacity());
+        v.setVehiclecurrencity(city); 
         v.setPriceperkm(dto.getPriceperkm());
 
         
@@ -81,24 +81,24 @@ public class DriverService {
     
     //FINDING THE DRIVER 
     
-    public Driver findDriverByMobile(long mobno) {
-        return dr.findByMobno(mobno);
+    public Driver findDriverByMobile(long drivermobileno) {
+        return dr.findByDrivermobileno(drivermobileno);
     }
 
     //deleting the driver by mobile number    
-    public String deleteDriver(long mobno) {
+    public String deleteDriver(long drivermobileno) {
 
-        Driver driver = dr.findByMobno(mobno);
+        Driver driver = dr.findByDrivermobileno(drivermobileno);
         dr.delete(driver);
 		return "Deleted Successfully";
         }
     
     //UPDATING THE VEHICLES LOCATION USING DRIVER'S MOBILE NUMBER
     
-	public String updateDriverLocation(long mobileNo, double latitude, double longitude) {
+	public String updateDriverLocation(long drivermobileNo, double latitude, double longitude) {
 		
 		
-        Driver driver = dr.findByMobno(mobileNo);
+        Driver driver = dr.findByDrivermobileno(drivermobileNo);
             
        
         String city = getCityName(latitude, longitude);
@@ -106,7 +106,7 @@ public class DriverService {
        
         if (driver.getVehicle() != null) {
             Vehicle v = driver.getVehicle();
-            v.setCurrencity(city);
+            v.setVehiclecurrencity(city);
 
            
             vr.save(v);

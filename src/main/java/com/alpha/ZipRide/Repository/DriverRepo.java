@@ -8,7 +8,7 @@ import com.alpha.ZipRide.Entity.Driver;
 @Repository
 public interface DriverRepo extends JpaRepository<Driver, Integer> {
 
-	Driver findByMobno(long mobno);
+	Driver findByDrivermobileno(long drivermobileno);
 
 
 

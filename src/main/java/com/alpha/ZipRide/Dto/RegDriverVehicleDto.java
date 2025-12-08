@@ -2,32 +2,31 @@ package com.alpha.ZipRide.Dto;
 
 public class RegDriverVehicleDto {
 	//Driver Details
-	private String dname;
+	private String drivername;
 	private int licenseno;
 	private String upiid;
 	private int age;
-	private long mobno;
-	private String gender;
-	private String mail;
+	private long drivermobileno;
+	private String drivergender;
+	private String drivermail;
 	
 	
 	//Vehicle Detalils
-	private String vname;
-	private int vno;
-	private String vtype;
-	private String vmodel;
-	private int capacity;
+	private String vehiclename;
+	private int vehicleno;
+	private String vehicletype;
+	private String vehiclemodel;
+	private int vehiclecapacity;
 	private int priceperkm;
 	
 	//initial location details
 	private double latitude;
 	private double longitude;
-	
-	public String getDname() {
-		return dname;
+	public String getDrivername() {
+		return drivername;
 	}
-	public void setDname(String dname) {
-		this.dname = dname;
+	public void setDrivername(String drivername) {
+		this.drivername = drivername;
 	}
 	public int getLicenseno() {
 		return licenseno;
@@ -47,53 +46,53 @@ public class RegDriverVehicleDto {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public long getMobno() {
-		return mobno;
+	public long getDrivermobileno() {
+		return drivermobileno;
 	}
-	public void setMobno(long mobno) {
-		this.mobno = mobno;
+	public void setDrivermobileno(long drivermobileno) {
+		this.drivermobileno = drivermobileno;
 	}
-	public String getGender() {
-		return gender;
+	public String getDrivergender() {
+		return drivergender;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setDrivergender(String drivergender) {
+		this.drivergender = drivergender;
 	}
-	public String getMail() {
-		return mail;
+	public String getDrivermail() {
+		return drivermail;
 	}
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setDrivermail(String drivermail) {
+		this.drivermail = drivermail;
 	}
-	public String getVname() {
-		return vname;
+	public String getVehiclename() {
+		return vehiclename;
 	}
-	public void setVname(String vname) {
-		this.vname = vname;
+	public void setVehiclename(String vehiclename) {
+		this.vehiclename = vehiclename;
 	}
-	public int getVno() {
-		return vno;
+	public int getVehicleno() {
+		return vehicleno;
 	}
-	public void setVno(int vno) {
-		this.vno = vno;
+	public void setVehicleno(int vehicleno) {
+		this.vehicleno = vehicleno;
 	}
-	public String getVtype() {
-		return vtype;
+	public String getVehicletype() {
+		return vehicletype;
 	}
-	public void setVtype(String vtype) {
-		this.vtype = vtype;
+	public void setVehicletype(String vehicletype) {
+		this.vehicletype = vehicletype;
 	}
-	public String getVmodel() {
-		return vmodel;
+	public String getVehiclemodel() {
+		return vehiclemodel;
 	}
-	public void setVmodel(String vmodel) {
-		this.vmodel = vmodel;
+	public void setVehiclemodel(String vehiclemodel) {
+		this.vehiclemodel = vehiclemodel;
 	}
-	public int getCapacity() {
-		return capacity;
+	public int getVehiclecapacity() {
+		return vehiclecapacity;
 	}
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setVehiclecapacity(int vehiclecapacity) {
+		this.vehiclecapacity = vehiclecapacity;
 	}
 	public int getPriceperkm() {
 		return priceperkm;
@@ -113,22 +112,22 @@ public class RegDriverVehicleDto {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	public RegDriverVehicleDto(String dname, int licenseno, String upiid, int age, long mobno, String gender,
-			String mail, String vname, int vno, String vtype, String vmodel, int capacity, int priceperkm,
-			double latitude, double longitude) {
+	public RegDriverVehicleDto(String drivername, int licenseno, String upiid, int age, long drivermobileno,
+			String drivergender, String drivermail, String vehiclename, int vehicleno, String vehicletype,
+			String vehiclemodel, int vehiclecapacity, int priceperkm, double latitude, double longitude) {
 		super();
-		this.dname = dname;
+		this.drivername = drivername;
 		this.licenseno = licenseno;
 		this.upiid = upiid;
-		this.age = age;
-		this.mobno = mobno;
-		this.gender = gender;
-		this.mail = mail;
-		this.vname = vname;
-		this.vno = vno;
-		this.vtype = vtype;
-		this.vmodel = vmodel;
-		this.capacity = capacity;
+		this.age =age;
+		this.drivermobileno = drivermobileno;
+		this.drivergender = drivergender;
+		this.drivermail = drivermail;
+		this.vehiclename = vehiclename;
+		this.vehicleno = vehicleno;
+		this.vehicletype = vehicletype;
+		this.vehiclemodel = vehiclemodel;
+		this.vehiclecapacity = vehiclecapacity;
 		this.priceperkm = priceperkm;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -138,10 +137,12 @@ public class RegDriverVehicleDto {
 	}
 	@Override
 	public String toString() {
-		return "RegDriverVehicleDto [dname=" + dname + ", licenseno=" + licenseno + ", upiid=" + upiid + ", age=" + age
-				+ ", mobno=" + mobno + ", gender=" + gender + ", mail=" + mail + ", vname=" + vname + ", vno=" + vno
-				+ ", vtype=" + vtype + ", vmodel=" + vmodel + ", capacity=" + capacity + ", priceperkm=" + priceperkm
-				+ ", latitude=" + latitude + ", longitude=" + longitude + "]";
+		return "RegDriverVehicleDto [drivername=" + drivername + ", licenseno=" + licenseno + ", upiid=" + upiid
+				+ ", driverage=" + age + ", drivermobileno=" + drivermobileno + ", drivergender=" + drivergender
+				+ ", drivermail=" + drivermail + ", vehiclename=" + vehiclename + ", vehicleno=" + vehicleno
+				+ ", vehicletype=" + vehicletype + ", vehiclemodel=" + vehiclemodel + ", vehiclecapacity="
+				+ vehiclecapacity + ", priceperkm=" + priceperkm + ", latitude=" + latitude + ", longitude=" + longitude
+				+ "]";
 	}
 	
 	

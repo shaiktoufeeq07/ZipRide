@@ -13,13 +13,13 @@ public class Vehicle {
 
 	@Id
 	private int vid;
-	private String vname;
-	private int vno;
-	private String vtype;
-	private String vmodel;
-	private int capacity;
-	private String currencity;
-	private String availability_status="Available";
+	private String vehiclename;
+	private int vehicleno;
+	private String vehicletype;
+	private String vehiclemodel;
+	private int vehiclecapacity;
+	private String vehiclecurrencity;
+	private String vehicleavailability_status="Available";
 	private int priceperkm;
 	
 	@OneToOne
@@ -27,25 +27,6 @@ public class Vehicle {
 	@JsonIgnore
 	@JoinColumn(name="did")
 	private Driver driver;
-
-	public Vehicle(int vid, String vname, int vno, String vtype, String vmodel, int capacity, String currencity,
-			String availability_status, int priceperkm, Driver driver) {
-		super();
-		this.vid = vid;
-		this.vname = vname;
-		this.vno = vno;
-		this.vtype = vtype;
-		this.vmodel = vmodel;
-		this.capacity = capacity;
-		this.currencity = currencity;
-		this.availability_status = availability_status;
-		this.priceperkm = priceperkm;
-		this.driver = driver;
-	}
-
-	public Vehicle() {
-		super();
-	}
 
 	public int getVid() {
 		return vid;
@@ -55,60 +36,60 @@ public class Vehicle {
 		this.vid = vid;
 	}
 
-	public String getVname() {
-		return vname;
+	public String getVehiclename() {
+		return vehiclename;
 	}
 
-	public void setVname(String vname) {
-		this.vname = vname;
+	public void setVehiclename(String vehiclename) {
+		this.vehiclename = vehiclename;
 	}
 
-	public int getVno() {
-		return vno;
+	public int getVehicleno() {
+		return vehicleno;
 	}
 
-	public void setVno(int vno) {
-		this.vno = vno;
+	public void setVehicleno(int vehicleno) {
+		this.vehicleno = vehicleno;
 	}
 
-	public String getVtype() {
-		return vtype;
+	public String getVehicletype() {
+		return vehicletype;
 	}
 
-	public void setVtype(String vtype) {
-		this.vtype = vtype;
+	public void setVehicletype(String vehicletype) {
+		this.vehicletype = vehicletype;
 	}
 
-	public String getVmodel() {
-		return vmodel;
+	public String getVehiclemodel() {
+		return vehiclemodel;
 	}
 
-	public void setVmodel(String vmodel) {
-		this.vmodel = vmodel;
+	public void setVehiclemodel(String vehiclemodel) {
+		this.vehiclemodel = vehiclemodel;
 	}
 
-	public int getCapacity() {
-		return capacity;
+	public int getVehiclecapacity() {
+		return vehiclecapacity;
 	}
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setVehiclecapacity(int vehiclecapacity) {
+		this.vehiclecapacity = vehiclecapacity;
 	}
 
-	public String getCurrencity() {
-		return currencity;
+	public String getVehiclecurrencity() {
+		return vehiclecurrencity;
 	}
 
-	public void setCurrencity(String currencity) {
-		this.currencity = currencity;
+	public void setVehiclecurrencity(String vehiclecurrencity) {
+		this.vehiclecurrencity = vehiclecurrencity;
 	}
 
-	public String getAvailability_status() {
-		return availability_status;
+	public String getVehicleavailability_status() {
+		return vehicleavailability_status;
 	}
 
-	public void setAvailability_status(String availability_status) {
-		this.availability_status = availability_status;
+	public void setVehicleavailability_status(String vehicleavailability_status) {
+		this.vehicleavailability_status = vehicleavailability_status;
 	}
 
 	public int getPriceperkm() {
@@ -126,7 +107,28 @@ public class Vehicle {
 	public void setDriver(Driver driver) {
 		this.driver = driver;
 	}
+
+	public Vehicle(String vehiclename, int vehicleno, String vehicletype, String vehiclemodel, int vehiclecapacity,
+			String vehiclecurrencity, String vehicleavailability_status, int priceperkm, Driver driver) {
+		super();
+		this.vehiclename = vehiclename;
+		this.vehicleno = vehicleno;
+		this.vehicletype = vehicletype;
+		this.vehiclemodel = vehiclemodel;
+		this.vehiclecapacity = vehiclecapacity;
+		this.vehiclecurrencity = vehiclecurrencity;
+		this.vehicleavailability_status = vehicleavailability_status;
+		this.priceperkm = priceperkm;
+		this.driver = driver;
+	}
+
+	public Vehicle() {
+		super();
+	}
+	
+	
 	
 	
 	
 }
+	
