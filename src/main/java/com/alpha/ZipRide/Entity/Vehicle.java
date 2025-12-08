@@ -1,5 +1,7 @@
 package com.alpha.ZipRide.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,11 +19,12 @@ public class Vehicle {
 	private String vmodel;
 	private int capacity;
 	private String currencity;
-	private String availability_status;
+	private String availability_status="Available";
 	private int priceperkm;
 	
 	@OneToOne
 	@MapsId
+	@JsonIgnore
 	@JoinColumn(name="did")
 	private Driver driver;
 

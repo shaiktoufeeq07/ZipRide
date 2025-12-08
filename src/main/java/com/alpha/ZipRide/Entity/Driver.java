@@ -21,7 +21,7 @@ private long mobno;
 private String gender;
 private String mail;
 
-@OneToOne(mappedBy = "Driver", cascade =  CascadeType.ALL,orphanRemoval = true)
+@OneToOne(mappedBy = "driver", cascade =  CascadeType.ALL,orphanRemoval = true)
 
 private Vehicle vehicle;
 
