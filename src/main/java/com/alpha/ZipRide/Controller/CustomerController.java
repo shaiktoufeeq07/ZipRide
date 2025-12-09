@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alpha.ZipRide.ResponceStructure;
+import com.alpha.ZipRide.Dto.AvailableVehiclesDTO;
 import com.alpha.ZipRide.Dto.CustomerDto;
 import com.alpha.ZipRide.Entity.Customer;
 import com.alpha.ZipRide.Service.CustomerService;
@@ -37,4 +38,11 @@ public class CustomerController {
 		ResponceStructure<String> response = cs.deletecustomer(customermobileno);
         return ResponseEntity.ok(response);
 	}
+	
+	//to see all available vehicles
+	@GetMapping("/seeallvehicles")
+	public ResponceStructure<AvailableVehiclesDTO> seeallavailablevehicles(@RequestParam long mobileno, @RequestParam("destinationcity") String destinationcity) {
+		return cs.seeallavailablevehicles(mobileno, destinationcity);
+	}
+	
 }
