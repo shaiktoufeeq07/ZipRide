@@ -1,5 +1,7 @@
 package com.alpha.ZipRide.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alpha.ZipRide.ResponceStructure;
 import com.alpha.ZipRide.Dto.AvailableVehiclesDTO;
 import com.alpha.ZipRide.Dto.CustomerDto;
+import com.alpha.ZipRide.Entity.Booking;
 import com.alpha.ZipRide.Entity.Customer;
 import com.alpha.ZipRide.Service.CustomerService;
 
@@ -45,4 +48,8 @@ public class CustomerController {
 		return cs.seeallavailablevehicles(mobileno, destinationcity);
 	}
 	
+	@GetMapping("/seebookinghistory")
+	public ResponceStructure<List<Booking>> bookinghistory(@RequestParam long mobileno) {
+		 return cs.seebookinghistory(mobileno);
+	}
 }

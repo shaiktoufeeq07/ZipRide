@@ -17,8 +17,10 @@ import com.alpha.ZipRide.ResponceStructure;
 import com.alpha.ZipRide.Dto.AvailableVehiclesDTO;
 import com.alpha.ZipRide.Dto.CustomerDto;
 import com.alpha.ZipRide.Dto.VehicleDetailsDto;
+import com.alpha.ZipRide.Entity.Booking;
 import com.alpha.ZipRide.Entity.Customer;
 import com.alpha.ZipRide.Entity.Vehicle;
+import com.alpha.ZipRide.Repository.BookingRepo;
 import com.alpha.ZipRide.Repository.CustomerRepo;
 import com.alpha.ZipRide.Repository.VehicleRepo;
 import com.alpha.ZipRide.exception.CustomerNotFoundException;
@@ -33,6 +35,9 @@ public class CustomerService {
 	
 	@Autowired
 	private VehicleRepo vr;
+	
+	@Autowired
+	private BookingRepo br;
 	
 
 	
@@ -248,4 +253,14 @@ public class CustomerService {
 		return  new ResponseEntity<ResponceStructure<AvailableVehiclesDTO>>(response,HttpStatus.OK);
 
 	}
-}
+
+	public ResponceStructure<List<Booking>> seebookinghistory(long mobileno) {
+		ResponceStructure<List<Booking>> rs=new ResponceStructure<List<Booking>>();
+	    List<Booking> list = cr.findCompletedBookingsByMobile(mobileno);
+
+		rs.setStatuscode(HttpStatus.FOUND.value());
+		rs.setMessage("Successfully Fetched the completed rides");
+		rs.setData(list);
+	    return rs;
+
+}}
