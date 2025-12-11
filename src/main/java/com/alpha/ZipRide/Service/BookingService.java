@@ -17,7 +17,6 @@ import com.alpha.ZipRide.Repository.CustomerRepo;
 import com.alpha.ZipRide.Repository.DriverRepo;
 import com.alpha.ZipRide.Repository.VehicleRepo;
 import com.alpha.ZipRide.exception.CustomerNotFoundException;
-
 @Service
 public class BookingService {
 

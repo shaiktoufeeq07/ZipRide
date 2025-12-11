@@ -1,10 +1,13 @@
 package com.alpha.ZipRide.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -24,6 +27,9 @@ private String drivermail;
 @OneToOne(mappedBy = "driver", cascade =  CascadeType.ALL,orphanRemoval = true)
 
 private Vehicle vehicle;
+
+@OneToMany
+private List<Booking> blist;
 
 public int getDid() {
 	return did;
@@ -105,8 +111,16 @@ public void setVehicle(Vehicle vehicle) {
 	this.vehicle = vehicle;
 }
 
+public List<Booking> getBlist() {
+	return blist;
+}
+
+public void setBlist(List<Booking> blist) {
+	this.blist = blist;
+}
+
 public Driver(int licenseno, String upiid, String drivername, String driverstatus, int age, long drivermobileno,
-		String drivergender, String drivermail, Vehicle vehicle) {
+		String drivergender, String drivermail, Vehicle vehicle, List<Booking> blist) {
 	super();
 	this.licenseno = licenseno;
 	this.upiid = upiid;
@@ -117,6 +131,7 @@ public Driver(int licenseno, String upiid, String drivername, String driverstatu
 	this.drivergender = drivergender;
 	this.drivermail = drivermail;
 	this.vehicle = vehicle;
+	this.blist = blist;
 }
 
 public Driver() {
@@ -127,9 +142,9 @@ public Driver() {
 public String toString() {
 	return "Driver [did=" + did + ", licenseno=" + licenseno + ", upiid=" + upiid + ", drivername=" + drivername
 			+ ", driverstatus=" + driverstatus + ", age=" + age + ", drivermobileno=" + drivermobileno
-			+ ", drivergender=" + drivergender + ", drivermail=" + drivermail + ", vehicle=" + vehicle + "]";
+			+ ", drivergender=" + drivergender + ", drivermail=" + drivermail + ", vehicle=" + vehicle + ", blist="
+			+ blist + "]";
 }
-
 
 
 

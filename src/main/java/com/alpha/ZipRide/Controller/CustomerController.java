@@ -41,7 +41,7 @@ public class CustomerController {
 	
 	//to see all available vehicles
 	@GetMapping("/seeallvehicles")
-	public ResponceStructure<AvailableVehiclesDTO> seeallavailablevehicles(@RequestParam long mobileno, @RequestParam("destinationcity") String destinationcity) {
+	public ResponseEntity<ResponceStructure<AvailableVehiclesDTO>> seeallavailablevehicles(@RequestParam long mobileno, @RequestParam("destinationcity") String destinationcity) {
 		return cs.seeallavailablevehicles(mobileno, destinationcity);
 	}
 	

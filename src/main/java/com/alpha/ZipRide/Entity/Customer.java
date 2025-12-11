@@ -3,6 +3,8 @@ package com.alpha.ZipRide.Entity;
 import java.awt.print.Book;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Customer {
 	private String currentlocation;
 	
 	@OneToMany
+	@JsonIgnore
 	private List<Booking> blist;
 
 	public int getCustomerid() {

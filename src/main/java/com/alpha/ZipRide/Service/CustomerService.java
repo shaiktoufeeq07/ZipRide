@@ -1,6 +1,7 @@
 package com.alpha.ZipRide.Service;
 
 import java.net.URLEncoder;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,144 +22,174 @@ import com.alpha.ZipRide.Entity.Vehicle;
 import com.alpha.ZipRide.Repository.CustomerRepo;
 import com.alpha.ZipRide.Repository.VehicleRepo;
 import com.alpha.ZipRide.exception.CustomerNotFoundException;
+import com.alpha.ZipRide.exception.InvalidDestinationCityException;
 
 import jakarta.transaction.Transactional;
-
 @Service
-@Transactional
 public class CustomerService {
 
 	@Autowired
 	private CustomerRepo cr;
-
+	
 	@Autowired
 	private VehicleRepo vr;
+	
 
-	// to get the city name from latitude and longitude
-	public String getCityName(double latitude, double longitude) {
+	
+//TO GET THE CURRENT CITY
+    
+    public String getCityName(double latitude, double longitude) {
 
-		String url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude;
+        String url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude ;
 
-		RestTemplate restTemplate = new RestTemplate();
-		Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
 
-		Map<String, Object> address = (Map<String, Object>) response.get("address");
+        Map<String, Object> address = (Map<String, Object>) response.get("address");
 
-		if (address.get("city") != null)
-			return address.get("city").toString();
-		else if (address.get("town") != null)
-			return address.get("town").toString();
-		else if (address.get("village") != null)
-			return address.get("village").toString();
-		else
-			return "Unknown";
-	}
+        if (address.get("city") != null)
+            return address.get("city").toString();
+        else if (address.get("town") != null)
+            return address.get("town").toString();
+        else if (address.get("village") != null)
+            return address.get("village").toString();
+        else
+            return "Unknown";
+    }
 
-	// To register a customer
+	//to register the customer
 	public Customer registercustomer(CustomerDto cd) {
 
-		Customer c = new Customer();
-		c.setCustomername(cd.getCustomername());
-		c.setCustomerage(cd.getCustomerage());
-		c.setCustomergender(cd.getCustomergender());
-		c.setCustomermobileno(cd.getCustomermobileno());
-		c.setEmail(cd.getEmail());
-
-		// Set city from GPS using Nominatim
-		c.setCurrentlocation(getCityName(cd.getClatitude(), cd.getClongitude()));
-
-		return cr.save(c);
+        Customer c = new Customer();
+        c.setCustomername(cd.getCustomername());
+        c.setCustomerage(cd.getCustomerage());
+        c.setCustomergender(cd.getCustomergender());
+        c.setCustomermobileno(cd.getCustomermobileno());
+        c.setEmail(cd.getEmail());
+        
+        c.setCurrentlocation(getCityName(cd.getClatitude(),cd.getClongitude()));
+	     return cr.save(c);
 	}
+		
+//	find by customermobileno
+		public ResponceStructure<Customer> findCustomer(long customermobileno) {
 
-	// To find a customer
-	public ResponceStructure<Customer> findCustomer(long customermobileno) {
+	        Customer c = cr.findByCustomermobileno(customermobileno)
+	                .orElseThrow(() -> new CustomerNotFoundException());
 
-		Customer c = cr.findByCustomermobileno(customermobileno).orElseThrow(CustomerNotFoundException::new);
+	        ResponceStructure<Customer> structure = new ResponceStructure<>();
+	        structure.setStatuscode(HttpStatus.OK.value());
+	        structure.setMessage("Customer found successfully!");
+	        structure.setData(c);
 
-		ResponceStructure<Customer> structure = new ResponceStructure<>();
-		structure.setStatuscode(HttpStatus.OK.value());
-		structure.setMessage("Customer found successfully!");
-		structure.setData(c);
+	        return structure;
+	    }
 
-		return structure;
-	}
+//		delete by customermobileno
+		
+		public ResponceStructure<String> deletecustomer(long customermobileNo) {
 
-	// to delete a customer
-	public ResponceStructure<String> deletecustomer(long customermobileNo) {
+			   Customer customer = cr.findByCustomermobileno(customermobileNo)
+			            .orElseThrow(CustomerNotFoundException::new);
 
-		Customer customer = cr.findByCustomermobileno(customermobileNo).orElseThrow(CustomerNotFoundException::new);
+			    // Delete the customer
+			    cr.deleteByCustomermobileno(customermobileNo);
 
-		cr.deleteByCustomermobileno(customermobileNo);
+			    // Prepare response
+			    ResponceStructure<String> response = new ResponceStructure<>();
+			    response.setStatuscode(HttpStatus.OK.value());
+			    response.setMessage("Customer with mobile number " + customermobileNo + " deleted successfully");
+			    response.setData("Deleted Successfully");
 
-		ResponceStructure<String> response = new ResponceStructure<>();
-		response.setStatuscode(HttpStatus.OK.value());
-		response.setMessage("Customer deleted successfully!");
-		response.setData("Deleted Successfully");
+			    return response;
 
-		return response;
 	}
 
 	public double[] getCoordinates(String city) {
-		try {
-			String apiKey = "4jzgMhanLaduMKYlgaNoS4xFufixiOhpBrwUK3InzxELr56ulhWhIIGAw3Hj5tGH";
-			String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
 
-			String url = "https://api.distancematrix.ai/maps/api/geocode/json?address=" + encodedCity + "&key="
-					+ apiKey;		
+	    String apiKey = "4jzgMhanLaduMKYlgaNoS4xFufixiOhpBrwUK3InzxELr56ulhWhIIGAw3Hj5tGH";
+	    String encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8);
+	    String url = "https://api.distancematrix.ai/maps/api/geocode/json?address="
+	                 + encodedCity + "&key=" + apiKey;
 
-			RestTemplate restTemplate = new RestTemplate();
-			Map response = restTemplate.getForObject(url, Map.class);
+	    RestTemplate restTemplate = new RestTemplate();
+	    Map response = restTemplate.getForObject(url, Map.class);
 
-			if (response == null || !response.containsKey("result")) {
-				return null;
-			}
+	    // Check if response is valid
+	    if (response == null || !"OK".equals(response.get("status"))) {
+	        throw new InvalidDestinationCityException();  // or InvalidSourceCityException depending on usage
+	    }
 
-			List resultList = (List) response.get("result");
-			if (resultList == null || resultList.isEmpty()) {
-				return null;
-			}
+	    List resultList = (List) response.get("result");
+	    if (resultList == null || resultList.isEmpty()) {
+	        throw new InvalidDestinationCityException();
+	    }
 
-			Map firstResult = (Map) resultList.get(0);
-			Map geometry = (Map) firstResult.get("geometry");
+	    Map firstResult = (Map) resultList.get(0);
 
-			if (geometry == null || !geometry.containsKey("location")) {
-				return null;
-			}
+	    // Check address_components inside first result
+	    if (!firstResult.containsKey("address_components") || firstResult.get("address_components") == null) {
+	        throw new InvalidDestinationCityException();
+	    }
 
-			Map location = (Map) geometry.get("location");
+	    Map geometry = (Map) firstResult.get("geometry");
+	    if (geometry == null || !geometry.containsKey("location")) {
+	        throw new InvalidDestinationCityException();
+	    }
 
-			double lat = Double.parseDouble(location.get("lat").toString());
-			double lng = Double.parseDouble(location.get("lng").toString());
+	    Map location = (Map) geometry.get("location");
+	    double lat = Double.parseDouble(location.get("lat").toString());
+	    double lng = Double.parseDouble(location.get("lng").toString());
 
-			return new double[] { lat, lng };
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	    return new double[]{ lat, lng };
 	}
+
 
 	public double getDistance(double sourceLat, double sourceLng, double destLat, double destLng) {
-		String apiKey = "uZfOzHLbMqX76OrJ1cgwySW9kmhwi9MGiuvQnzuRqv35vw9HLPx1StyZnjVQwUzb"; // Replace with your key
-		String url = "https://api.distancematrix.ai/maps/api/distancematrix/json?" + "origins=" + sourceLat + ","
-				+ sourceLng + "&destinations=" + destLat + "," + destLng + "&key=" + apiKey;
+	
 
-		RestTemplate restTemplate = new RestTemplate();
-		Map response = restTemplate.getForObject(url, Map.class);
-		if (!response.containsKey("rows"))
-			return -1;
+		    String apiKey = "uZfOzHLbMqX76OrJ1cgwySW9kmhwi9MGiuvQnzuRqv35vw9HLPx1StyZnjVQwUzb";
+		    String url = "https://api.distancematrix.ai/maps/api/distancematrix/json?"
+		            + "origins=" + sourceLat + "," + sourceLng
+		            + "&destinations=" + destLat + "," + destLng
+		            + "&key=" + apiKey;
 
-		List rows = (List) response.get("rows");
-		Map row = (Map) rows.get(0);
-		List elements = (List) row.get("elements");
-		Map element = (Map) elements.get(0);
-		Map dist = (Map) element.get("distance");
+		    RestTemplate restTemplate = new RestTemplate();
+		    Map response = restTemplate.getForObject(url, Map.class);
 
-		double meters = Double.parseDouble(dist.get("value").toString());
-		return meters / 1000.0; // KM
-	}
+		    if (response == null || !response.containsKey("rows"))
+		        return -1;
 
-	public ResponceStructure<AvailableVehiclesDTO> seeallavailablevehicles(long mobileno, String destinationCity) {
+		    List rows = (List) response.get("rows");
+		    if (rows == null || rows.isEmpty())
+		        return -1;
+
+		    Map row = (Map) rows.get(0);
+		    if (row == null || !row.containsKey("elements"))
+		        return -1;
+
+		    List elements = (List) row.get("elements");
+		    if (elements == null || elements.isEmpty())
+		        return -1;
+
+		    Map element = (Map) elements.get(0);
+
+		    // Check status
+		    Object statusObj = element.get("status");
+		    if (statusObj == null || !"OK".equals(statusObj.toString()))
+		        return -1;
+
+		    // Extract distance
+		    Map dist = (Map) element.get("distance");
+		    if (dist == null || !dist.containsKey("value"))
+		        return -1;
+
+		    double meters = Double.parseDouble(dist.get("value").toString());
+		    return meters / 1000.0;
+		}
+
+
+	public ResponseEntity<ResponceStructure<AvailableVehiclesDTO>> seeallavailablevehicles(long mobileno, String destinationCity) {
 
 		// Fetch customer
 		Customer customer = cr.findByCustomermobileno(mobileno).orElseThrow(CustomerNotFoundException::new);
@@ -165,17 +197,17 @@ public class CustomerService {
 		String sourceCity = customer.getCurrentlocation();
 
 		// Source coordinates
-		double[] src = getCoordinates(sourceCity);
-		if (src == null)
-			throw new RuntimeException("Invalid source city: " + sourceCity);
+		double[] src =(getCoordinates(sourceCity));
 
 		// Destination coordinates
-		double[] dest = getCoordinates(destinationCity);
-		if (dest == null)
-			throw new RuntimeException("Invalid destination city: " + destinationCity);
+		double[] dest =(getCoordinates(destinationCity));
+
 
 		// Calculate distance
 		double distance = getDistance(src[0], src[1], dest[0], dest[1]);
+//		if (distance < 0) {
+//	        throw new InvalidDestinationCityException();
+//	    }
 
 		// Fetch all vehicles
 		List<Vehicle> vehicles = vr.findAll();
@@ -208,11 +240,12 @@ public class CustomerService {
 		dto.setAvailableVehicles(list);
 
 		// Final Response Structure
-		ResponceStructure<AvailableVehiclesDTO> response = new ResponceStructure<>();
+		ResponceStructure<AvailableVehiclesDTO>response = new ResponceStructure<>();
 		response.setStatuscode(HttpStatus.OK.value());
 		response.setMessage("Available vehicles fetched successfully");
 		response.setData(dto);
 
-		return response;
+		return  new ResponseEntity<ResponceStructure<AvailableVehiclesDTO>>(response,HttpStatus.OK);
+
 	}
 }
