@@ -10,7 +10,7 @@ public class RegDriverVehicleDto {
 	private String drivergender;
 	private String drivermail;
 	
-	
+
 	//Vehicle Detalils
 	private String vehiclename;
 	private int vehicleno;

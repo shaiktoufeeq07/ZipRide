@@ -20,5 +20,9 @@ public interface CustomerRepo extends JpaRepository<Customer, Integer> {
     @Query("SELECT b FROM Booking b WHERE b.customer.customermobileno = :mobileno AND b.bookingstatus = 'completed'")
 	List<Booking> findCompletedBookingsByMobile(@Param("mobileno") long mobileno);
 
-	
+    @Query("SELECT b FROM Booking b WHERE b.customer.customermobileno = :mobileno AND b.bookingstatus = 'booked'")
+	List<Booking> findActiveBookingsByMobile(@Param("mobileno") long mobileno);
+
+
 }
+

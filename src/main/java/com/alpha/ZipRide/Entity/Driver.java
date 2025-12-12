@@ -2,6 +2,8 @@ package com.alpha.ZipRide.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ private String drivermail;
 private Vehicle vehicle;
 
 @OneToMany
+@JsonIgnore
 private List<Booking> blist;
 
 public int getDid() {

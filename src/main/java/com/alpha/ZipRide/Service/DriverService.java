@@ -1,15 +1,20 @@
 package com.alpha.ZipRide.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.alpha.ZipRide.ResponceStructure;
+
 import com.alpha.ZipRide.Dto.RegDriverVehicleDto;
+import com.alpha.ZipRide.Entity.Booking;
 import com.alpha.ZipRide.Entity.Driver;
 import com.alpha.ZipRide.Entity.Vehicle;
 import com.alpha.ZipRide.Repository.DriverRepo;
@@ -114,6 +119,17 @@ public class DriverService {
 
         return "Driver location updated to city: " + city;
 
+	}
+
+	public ResponceStructure<List<Booking>> seebookinghistory(long drivermobileno) {
+		
+			ResponceStructure<List<Booking>> rs = new ResponceStructure<List<Booking>>();
+		    List<Booking> list = vr.findCompletedBookingsByMobile(drivermobileno);
+
+			rs.setStatuscode(HttpStatus.FOUND.value());
+			rs.setMessage("Successfully Fetched the completed rides");
+			rs.setData(list);
+		    return rs;
 	}
 
 }

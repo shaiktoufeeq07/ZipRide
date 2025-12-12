@@ -26,6 +26,9 @@ public class Booking {
 		@JsonIgnore
 		private Vehicle vehicle;
 		
+		@ManyToOne
+		private Driver driver;
+		
 		private String sourceloction;
 		private String destinationlocation;
 		private int fare;
@@ -45,7 +48,7 @@ public class Booking {
 		@OneToOne
 		private Payment payment;
 		private String bookingstatus="PENDING";
-		
+
 		public int getBookingid() {
 			return bookingid;
 		}
@@ -63,6 +66,12 @@ public class Booking {
 		}
 		public void setVehicle(Vehicle vehicle) {
 			this.vehicle = vehicle;
+		}
+		public Driver getDriver() {
+			return driver;
+		}
+		public void setDriver(Driver driver) {
+			this.driver = driver;
 		}
 		public String getSourceloction() {
 			return sourceloction;
@@ -118,13 +127,14 @@ public class Booking {
 		public void setBookingstatus(String bookingstatus) {
 			this.bookingstatus = bookingstatus;
 		}
-		
-		public Booking(Customer customer, Vehicle vehicle, String sourceloction, String destinationlocation, int fare,
-				int distancetravelled, int estimatedtime, Date bookingdate, String paymentstatus, Payment payment,
-				String bookingstatus) {
+		public Booking(int bookingid, Customer customer, Vehicle vehicle, Driver driver, String sourceloction,
+				String destinationlocation, int fare, int distancetravelled, int estimatedtime, Date bookingdate,
+				String paymentstatus, Payment payment, String bookingstatus) {
 			super();
+			this.bookingid = bookingid;
 			this.customer = customer;
 			this.vehicle = vehicle;
+			this.driver = driver;
 			this.sourceloction = sourceloction;
 			this.destinationlocation = destinationlocation;
 			this.fare = fare;
@@ -135,17 +145,31 @@ public class Booking {
 			this.payment = payment;
 			this.bookingstatus = bookingstatus;
 		}
-		
 		public Booking() {
 			super();
 		}
-		
 		@Override
 		public String toString() {
-			return "Booking [bookingid=" + bookingid + ", customer=" + customer + ", vehicle=" + vehicle
-					+ ", sourceloction=" + sourceloction + ", destinationlocation=" + destinationlocation + ", fare="
-					+ fare + ", distancetravelled=" + distancetravelled + ", estimatedtime=" + estimatedtime
+			return "Booking [bookingid=" + bookingid + ", customer=" + customer + ", vehicle=" + vehicle + ", driver="
+					+ driver + ", sourceloction=" + sourceloction + ", destinationlocation=" + destinationlocation
+					+ ", fare=" + fare + ", distancetravelled=" + distancetravelled + ", estimatedtime=" + estimatedtime
 					+ ", bookingdate=" + bookingdate + ", paymentstatus=" + paymentstatus + ", payment=" + payment
 					+ ", bookingstatus=" + bookingstatus + "]";
 		}
-	}
+}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
