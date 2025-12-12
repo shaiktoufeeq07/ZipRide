@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.alpha.ZipRide.ResponceStructure;
+import com.alpha.ZipRide.Dto.ActiveCustomerBookingDto;
 import com.alpha.ZipRide.Dto.AvailableVehiclesDTO;
 import com.alpha.ZipRide.Dto.CustomerDto;
 import com.alpha.ZipRide.Dto.VehicleDetailsDto;
@@ -263,4 +264,62 @@ public class CustomerService {
 		rs.setData(list);
 	    return rs;
 
-}}
+}
+
+	
+		public ResponceStructure<ActiveCustomerBookingDto> activebookings(long mobileno) {
+			ResponceStructure<ActiveCustomerBookingDto> rs=new ResponceStructure<ActiveCustomerBookingDto>();
+			List<Booking> list=cr.findActiveBookingsByMobile(mobileno);
+			
+			//if there are no present bookings of an customer
+		    if (list.isEmpty()) {
+		        rs.setStatuscode(HttpStatus.NOT_FOUND.value());
+		        rs.setMessage("No active bookings found");
+		        rs.setData(null);
+		        return rs;
+		    }
+		    
+		    //to find the active bookings of a customer
+		    Booking booking =list.get(list.size()-1);
+		    Customer c=booking.getCustomer();
+		    
+		    ActiveCustomerBookingDto ad=new ActiveCustomerBookingDto();
+		    ad.setCustomername(c.getCustomername());
+		    ad.setCustomermobno(c.getCustomermobileno());
+		    ad.setBooking(booking);
+		    ad.setCustomercurrentlocation(c.getCurrentlocation());
+		    
+		    rs.setStatuscode(HttpStatus.FOUND.value());
+		    rs.setMessage("Active Booking of the customer");
+		    rs.setData(ad);
+		    
+			return rs;
+			
+	}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

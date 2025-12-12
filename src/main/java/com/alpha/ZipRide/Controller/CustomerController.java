@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alpha.ZipRide.ResponceStructure;
+import com.alpha.ZipRide.Dto.ActiveCustomerBookingDto;
 import com.alpha.ZipRide.Dto.AvailableVehiclesDTO;
 import com.alpha.ZipRide.Dto.CustomerDto;
 import com.alpha.ZipRide.Entity.Booking;
@@ -52,4 +53,37 @@ public class CustomerController {
 	public ResponceStructure<List<Booking>> bookinghistory(@RequestParam long mobileno) {
 		 return cs.seebookinghistory(mobileno);
 	}
+	
+	@GetMapping("/seeactivebookings")
+	public ResponceStructure<ActiveCustomerBookingDto> activebookings(@RequestParam long mobileno){
+		return cs.activebookings(mobileno);
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
