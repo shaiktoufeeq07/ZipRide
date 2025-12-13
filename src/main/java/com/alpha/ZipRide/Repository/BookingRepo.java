@@ -12,5 +12,8 @@ import com.alpha.ZipRide.Entity.Booking;
 @Repository
 public interface BookingRepo extends JpaRepository<Booking, Integer>{
 
+	Booking findActiveBookingByCustomerId(long customermobileno);
+
+
 }
 
