@@ -295,7 +295,49 @@ public class CustomerService {
 		    
 			return rs;
 			
-	}}
+	}
+		
+		public ResponseEntity<ResponceStructure<ActiveCustomerBookingDto>> activecustomerbookingdto(long mobileNo) {
+
+	    	Customer customer = cr.findByCustomermobileno(mobileNo)
+	    	        .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+			customer.setBookingflag(true);  // modify managed entity
+	    	cr.save(customer);    // persists the change
+
+	        Booking booking = br.findActiveBookingByCustomerId(customer.getCustomermobileno());
+
+	        // No active booking
+	        
+	        if (booking == null) {
+	            customer.setBookingflag(false);
+	            cr.save(customer);
+	            throw new RuntimeException("No current booking found");
+	        }
+
+	        // Prepare DTO
+	        ActiveCustomerBookingDto activecustomerbookingdto= new ActiveCustomerBookingDto();
+	        activecustomerbookingdto.setCustomername(customer.getCustomername());
+	        activecustomerbookingdto.setCustomermobno(customer.getCustomermobileno());
+	        activecustomerbookingdto.setBooking(booking);
+	        activecustomerbookingdto.setCustomercurrentlocation(activecustomerbookingdto.getCustomercurrentlocation());
+
+	        // Update booking flag based on booking status
+	        boolean isBooked = booking.getBookingstatus() != null &&
+	                           booking.getBookingstatus().trim().equalsIgnoreCase("booked");
+	        customer.setBookingflag(isBooked);
+	        cr.save(customer);
+
+	        // Response
+	        ResponceStructure<ActiveCustomerBookingDto> rs = new ResponceStructure<>();
+	        rs.setStatuscode(HttpStatus.OK.value());
+	        rs.setMessage("Active Booking fetched successfully");
+	        rs.setData(activecustomerbookingdto);
+
+	        return new ResponseEntity<>(rs, HttpStatus.OK);
+	    }
+		
+  }
 
 
 

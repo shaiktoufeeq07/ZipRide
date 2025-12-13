@@ -59,6 +59,11 @@ public class CustomerController {
 		return cs.activebookings(mobileno);
 	}
 	
+	@GetMapping("/servicemethod")
+    public void servicemethod(@RequestParam long mobileNo) {
+    	cs.findCustomer(mobileNo);
+    }
+	
 	
 }
 
