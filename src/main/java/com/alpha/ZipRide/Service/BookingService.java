@@ -32,9 +32,13 @@ public class BookingService {
 	
 	@Autowired
 	private DriverRepo dr;
+	
+	@Autowired 
+	private MailService mailservice;
 
 
 	public ResponceStructure<Booking> bookvehicle(long customermobileno, BookingDto dto) {
+		
 		//finding customer object by mobiler number
 		Customer c=cr.findByCustomermobileno(customermobileno).orElseThrow(()-> new CustomerNotFoundException());
 		//finding vehicle id
@@ -78,11 +82,19 @@ public class BookingService {
 	    rs.setStatuscode(HttpStatus.OK.value());
 	    rs.setMessage("Booked sucessfully");
 	    rs.setData(b);
+	    
+	    mailservice.sendmail("pasnoornikithareddy28@gmail.com","Booked sucessfully nexon","Thank you");
+	    
 	    return rs;
 	
 	}
-	
 
+
+
+
+
+	
+ 
 	
 	
 }

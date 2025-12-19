@@ -221,7 +221,6 @@ public class CustomerService {
 		List<VehicleDetailsDto> list = new ArrayList<>();
 
 		for (Vehicle v : vehicles) {
-			
 			  if (!v.getVehiclecurrencity().equalsIgnoreCase(sourceCity)) {
 			        continue; // Skip vehicles not in the customer's current city
 			    }
