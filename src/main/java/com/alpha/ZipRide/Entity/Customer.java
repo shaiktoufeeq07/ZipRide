@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,9 +24,14 @@ public class Customer {
 	private long customermobileno;
 	private String email;
 	private String currentlocation;
+	
+	@Column(name="bookingflag")
 	private boolean bookingflag = false;
 	
-	@OneToMany
+	@Column(nullable = false)
+	private int penality=0;
+	
+	@OneToMany(mappedBy = "customer")
 	@JsonIgnore
 	private List<Booking> blist;
 
@@ -77,15 +83,21 @@ public class Customer {
 	public void setBookingflag(boolean bookingflag) {
 		this.bookingflag = bookingflag;
 	}
+	public int getPenality() {
+		return penality;
+	}
+	public void setPenality(int penality) {
+		this.penality = penality;
+	}
 	public List<Booking> getBlist() {
 		return blist;
 	}
 	public void setBlist(List<Booking> blist) {
 		this.blist = blist;
 	}
-
+	
 	public Customer(String customername, int customerage, String customergender, long customermobileno, String email,
-			String currentlocation, boolean bookingflag, List<Booking> blist) {
+			String currentlocation, boolean bookingflag, int penality, List<Booking> blist) {
 		super();
 		this.customername = customername;
 		this.customerage = customerage;
@@ -94,18 +106,19 @@ public class Customer {
 		this.email = email;
 		this.currentlocation = currentlocation;
 		this.bookingflag = bookingflag;
+		this.penality = penality;
 		this.blist = blist;
 	}
-
+	
 	public Customer() {
 		super();
 	}
-
 	@Override
 	public String toString() {
 		return "Customer [customerid=" + customerid + ", customername=" + customername + ", customerage=" + customerage
 				+ ", customergender=" + customergender + ", customermobileno=" + customermobileno + ", email=" + email
-				+ ", currentlocation=" + currentlocation + ", bookingflag=" + bookingflag + ", blist=" + blist + "]";
+				+ ", currentlocation=" + currentlocation + ", bookingflag=" + bookingflag + ", penality=" + penality
+				+ ", blist=" + blist + "]";
 	}
 
 }

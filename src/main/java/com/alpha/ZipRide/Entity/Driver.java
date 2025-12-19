@@ -30,7 +30,7 @@ private String drivermail;
 
 private Vehicle vehicle;
 
-@OneToMany
+@OneToMany(mappedBy = "driver")
 @JsonIgnore
 private List<Booking> blist;
 
@@ -148,8 +148,6 @@ public String toString() {
 			+ ", drivergender=" + drivergender + ", drivermail=" + drivermail + ", vehicle=" + vehicle + ", blist="
 			+ blist + "]";
 }
-
-
 
 
 }
